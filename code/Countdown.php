@@ -3,25 +3,58 @@
 class CountdownWidgetExtension extends DataExtension {
 
 	private static $db = array(
-		'EndDate' => 'Datetime'
+		'EndDate' => 'Datetime',
+		'CountdownType' => 'Varchar'
+	);
+
+	private $options = array(
+		'CouponDays' => array (
+			'Template' => 'CountdownDiv',
+			'Script' => 'countdown-coupon-days'
+		),
+		'CouponWeeks' => array (
+			'Template' => 'CountdownSpan',
+			'Script' => 'countdown-coupon-weeks'
+		),
+		'Legacy' => array (
+			'Template' => 'CountdownDiv',
+			'Script' => 'countdown-legacy'
+		)
 	);
 
 	public function updateCMSFields(FieldList $fields) {
-		$fields->push(
-			DateField::create('EndDate', 'EndDate')
-				->setConfig('showcalendar', true)
+		$countdownTypes = array();
+		foreach ($this->options as $key => $value) {
+			$countdownTypes[$key] = $key;
+		}
+		$fields->addFieldsToTab('Root.Countdown',
+			array(
+				DateField::create('EndDate', 'EndDate')
+					->setConfig('showcalendar', true),
+				DropdownField::create('CountdownType', 'CountdownType',$countdownTypes)
+			)
 		);
 	}
 
-	public function Countdown() {
+	public function jsScripts() {
 		Requirements::javascript('framework/thirdparty/jquery/jquery.js');
 		Requirements::javascript('countdown/thirdparty/jquery.countdown/dist/jquery.countdown.js');
+	}
+
+	public function formattedEndDate() {
 		$timezoneDate = date('Y-m-d H:i:s T', strtotime($this->owner->EndDate));
-		$formatDate = gmdate(DATE_RFC822, strtotime($timezoneDate));
+		return gmdate(DATE_RFC822, strtotime($timezoneDate));
+	}
+
+	public function Countdown() {
+		$this->jsScripts();
+		$formatDate = $this->formattedEndDate();
 		$vars = array(
 			'EndDate' => $formatDate
 		);
-		Requirements::javascriptTemplate('countdown/js/countdown.js', $vars);
-		return $this->owner->renderWith('CountdownWidget');
+		$script = $this->options[$this->owner->CountdownType]['Script'];
+		$template = $this->options[$this->owner->CountdownType]['Template'];
+		Requirements::javascriptTemplate("countdown/js/$script.js", $vars);
+		return $this->owner->renderWith($template);
 	}
 }
