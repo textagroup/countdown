@@ -32,6 +32,7 @@ class CountdownWidgetExtension extends DataExtension {
 				DateField::create('EndDate', 'EndDate')
 					->setConfig('showcalendar', true),
 				DropdownField::create('CountdownType', 'CountdownType',$countdownTypes)
+					->setEmptyString('Select one')
 			)
 		);
 	}
@@ -47,6 +48,9 @@ class CountdownWidgetExtension extends DataExtension {
 	}
 
 	public function Countdown() {
+		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
+			return;
+		}
 		$this->jsScripts();
 		$formatDate = $this->formattedEndDate();
 		$vars = array(
