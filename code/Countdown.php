@@ -38,7 +38,7 @@ class CountdownWidgetExtension extends DataExtension {
 
 	public function jsScripts() {
 		Requirements::javascript('framework/thirdparty/jquery/jquery.js');
-		Requirements::javascript('countdown/thirdparty/jquery.countdown/dist/jquery.countdown.js');
+		Requirements::javascript('countdown/thirdparty/jQuery.countdown/dist/jquery.countdown.js');
 	}
 
 	public function formattedEndDate() {
