@@ -1,6 +1,6 @@
 jQuery(function ($) {
 	var endDate = new Date('$EndDate');
-	$('#clock').countdown(endDate, function(event) {
+	$('#$ElementID').countdown(endDate, function(event) {
 		var $this = $(this).html(event.strftime(''
 		+ '<span>%w</span> weeks '
 		+ '<span>%d</span> days '

@@ -4,7 +4,14 @@ class CountdownWidgetExtension extends DataExtension {
 
 	private static $db = array(
 		'EndDate' => 'Datetime',
-		'CountdownType' => 'Varchar'
+		'CountdownType' => 'Varchar',
+		'CountdownElementID' => 'Varchar',
+		'CountdownElementClass' => 'Varchar'
+	);
+
+	private static $defaults = array(
+		'CountdownElementID' => 'clock',
+		'CountdownElementClass' => 'CountdownClock'
 	);
 
 	private $options = array(
@@ -32,7 +39,9 @@ class CountdownWidgetExtension extends DataExtension {
 				DateField::create('EndDate', 'EndDate')
 					->setConfig('showcalendar', true),
 				DropdownField::create('CountdownType', 'CountdownType',$countdownTypes)
-					->setEmptyString('Select one')
+					->setEmptyString('Select one'),
+				TextField::create('CountdownElementID'),
+				TextField::create('CountdownElementClass')
 			)
 		);
 	}
@@ -54,7 +63,8 @@ class CountdownWidgetExtension extends DataExtension {
 		$this->jsScripts();
 		$formatDate = $this->formattedEndDate();
 		$vars = array(
-			'EndDate' => $formatDate
+			'EndDate' => $formatDate,
+			'ElementID' => $this->owner->CountdownElementID
 		);
 		$script = $this->options[$this->owner->CountdownType]['Script'];
 		$template = $this->options[$this->owner->CountdownType]['Template'];

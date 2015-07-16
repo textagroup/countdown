@@ -47,7 +47,9 @@ Then you need to setup where you want the countdown to appear by adding the the 
 </div>  
 ```
 
-This will add a div or span to your page with a Countdown timer you can then style the div or span via css via the relavant class (CountdownDiv, CountdownSpan)
+This will add a div or span to your page with a Countdown timer you can then style the div or span with CSS via the 
+relavant class which defaults to CountdownClock but can be amended via the CMS you can also amend the deafult element ID
+which defaults to clock
 
 [See the following page for examples and information of the jQuery module used](http://hilios.github.io/jQuery.countdown/)
 
@@ -55,4 +57,7 @@ This will add a div or span to your page with a Countdown timer you can then sty
 This module adds a countdown timer to a SilverStripe page and a date field to the cms section for the page which is used to set the countdown date
 
 ##TO DO
-* Add a configurable ID or Class to the Countdown div/span
+
+* Testing
+* Maybe more countdown clock styles
+* Internationalisation
