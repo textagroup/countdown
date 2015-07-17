@@ -15,6 +15,10 @@ class CountdownWidgetExtension extends DataExtension {
 	);
 
 	private $options = array(
+		'DaysOnly' => array (
+			'Template' => 'CountdownDiv',
+			'Script' => 'countdown-days-only'
+		),
 		'CouponDays' => array (
 			'Template' => 'CountdownDiv',
 			'Script' => 'countdown-coupon-days'
