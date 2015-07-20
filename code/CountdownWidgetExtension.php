@@ -56,8 +56,7 @@ class CountdownWidgetExtension extends DataExtension {
 	}
 
 	public function formattedEndDate() {
-		$timezoneDate = date('Y-m-d H:i:s T', strtotime($this->owner->EndDate));
-		return gmdate(DATE_RFC822, strtotime($timezoneDate));
+		return gmdate(DATE_W3C, strtotime($this->owner->EndDate));
 	}
 
 	public function Countdown() {
