@@ -59,6 +59,14 @@ class CountdownWidgetExtension extends DataExtension {
 		return gmdate(DATE_W3C, strtotime($this->owner->EndDate));
 	}
 
+	public function HasEnded() {
+		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
+			return false;
+		}
+
+		return $this->owner->dbObject('EndDate')->InPast();
+	}
+
 	public function Countdown() {
 		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
 			return;
