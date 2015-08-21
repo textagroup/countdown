@@ -59,19 +59,40 @@ class CountdownWidgetExtension extends DataExtension {
 		return gmdate(DATE_W3C, strtotime($this->owner->EndDate));
 	}
 
+	public function HasEnded() {
+		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
+			return false;
+		}
+
+		return $this->owner->dbObject('EndDate')->InPast();
+	}
+
 	public function Countdown() {
 		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
 			return;
 		}
 		$this->jsScripts();
 		$formatDate = $this->formattedEndDate();
+
+
 		$vars = array(
 			'EndDate' => $formatDate,
-			'ElementID' => $this->owner->CountdownElementID
+			'ElementID' => $this->owner->CountdownElementID,
+			'ElementClass' =>$this->owner->CountdownElementClass
 		);
-		$script = $this->options[$this->owner->CountdownType]['Script'];
+
+		$configScript = Config::inst()->get('CountdownWidgetExtension', 'script');
+
+		if($configScript) {
+			Requirements::javascriptTemplate($configScript, $vars);
+		} else {
+			$script = $this->options[$this->owner->CountdownType]['Script'];
+			Requirements::javascriptTemplate("countdown/js/$script.js", $vars);
+		}
+
 		$template = $this->options[$this->owner->CountdownType]['Template'];
-		Requirements::javascriptTemplate("countdown/js/$script.js", $vars);
+
 		return $this->owner->renderWith($template);
+
 	}
 }
