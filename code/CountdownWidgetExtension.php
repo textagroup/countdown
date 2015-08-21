@@ -80,7 +80,7 @@ class CountdownWidgetExtension extends DataExtension {
 		);
 		$script = $this->options[$this->owner->CountdownType]['Script'];
 		$template = $this->options[$this->owner->CountdownType]['Template'];
-		Requirements::javascriptTemplate("countdown/js/$script.js", $vars);
+		Requirements::javascriptTemplate("countdown/js/$script.js", $vars, true);
 		return $this->owner->renderWith($template);
 	}
 }
