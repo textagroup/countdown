@@ -1,6 +1,7 @@
 jQuery(function ($) {
 	var endDate = new Date('$EndDate');
-	$('#$ElementID').countdown(endDate, function(event) {
-		$(this).html(event.strftime('%D days %H:%M:%S'));
+	var template = '<span class="days">%D</span> <span class="text-days">days</span> <span class="time">%H:%M:%S</span>';
+	$('.$ElementClass').countdown(endDate, function(event) {
+		$(this).html(event.strftime(template));
 	});
 });

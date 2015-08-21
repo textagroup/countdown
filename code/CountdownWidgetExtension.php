@@ -59,6 +59,14 @@ class CountdownWidgetExtension extends DataExtension {
 		return gmdate(DATE_W3C, strtotime($this->owner->EndDate));
 	}
 
+	public function HasEnded() {
+		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
+			return false;
+		}
+
+		return $this->owner->dbObject('EndDate')->InPast();
+	}
+
 	public function Countdown() {
 		if (!$this->owner->EndDate || !$this->owner->CountdownType) {
 			return;
@@ -67,11 +75,12 @@ class CountdownWidgetExtension extends DataExtension {
 		$formatDate = $this->formattedEndDate();
 		$vars = array(
 			'EndDate' => $formatDate,
+			'ElementClass' => $this->owner->CountdownElementClass,
 			'ElementID' => $this->owner->CountdownElementID
 		);
 		$script = $this->options[$this->owner->CountdownType]['Script'];
 		$template = $this->options[$this->owner->CountdownType]['Template'];
-		Requirements::javascriptTemplate("countdown/js/$script.js", $vars);
+		Requirements::javascriptTemplate("countdown/js/$script.js", $vars, true);
 		return $this->owner->renderWith($template);
 	}
 }
