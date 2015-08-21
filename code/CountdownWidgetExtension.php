@@ -75,6 +75,7 @@ class CountdownWidgetExtension extends DataExtension {
 		$formatDate = $this->formattedEndDate();
 		$vars = array(
 			'EndDate' => $formatDate,
+			'ElementClass' => $this->owner->CountdownElementClass,
 			'ElementID' => $this->owner->CountdownElementID
 		);
 		$script = $this->options[$this->owner->CountdownType]['Script'];
